@@ -1,0 +1,265 @@
+//Q1 Write a program to find all pairs of an integer array whose sum is equal to a given number?
+function findPairs(array, targetSum){
+    const pairs = [];
+
+    for(let i = 0; i < array.length - 1; i++) {
+        for (let j = 1 + 1; j < array.length; j++) {
+            if (array[i] + array[j] === targetSum) {
+                pairs.push(array[i], array[j]);
+            }
+        }
+    }
+    return pairs;
+}
+const numbers = [1, 2, 3, 4, 5, 6, ];
+const target = 7;
+
+const result = findPairs(numbers, target);
+console.log(result);
+
+
+//Q2 Write a program to reverse an array in place? In place means you cannot create a new array. You have to update the original array.
+function reverseArrayInPlace(arr){
+    let start = 0;
+    let end = arr.length - 1;
+
+    while(start < end){
+        let temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+
+        start++;
+        end--;
+    }
+}   
+
+let myArray = [1, 2, 3, 4, 5];
+reverseArrayInPlace(myArray);
+console.log(myArray);
+
+//Q3 Write a program to check if two strings are a rotation of each other?
+function areRotations(str1, str2) {
+    if (str1.length !== str2.length){
+        return false;
+
+        
+    }
+    const concatenatedStr = str1 + str1;
+if (concatenatedStr.includes(str2)){
+    return true;
+}
+return false;
+}
+
+const string1 = "waterbottle";
+const string2 = "erbottlewat";
+
+   if(areRotations(string1, string2)){
+    console.log("The strings are rotations of each other.");
+   }
+   else {
+    console.log("The strings are not rotations of each other."); 
+   }
+
+   //Q4 Write a program to print the first non-repeated character from a string?
+   function firstNonRepeatedCharacter(str){
+    const charFrequency = {};
+
+    for (let char of str) {
+        charFrequency[char] = (charFrequency[char] || 0) + 1;
+  
+  
+  for (let char of str){
+    if (charFrequency[char] === 1) {
+        return char;
+    }
+  }
+  return null;
+  }
+   }
+
+
+   const inputString = "aabbccdef";
+   const result = firstNonRepeatedCharacter(inputString);
+   console.log("first Non-Repeated Character:", result);
+
+   //Q5  Read about the Tower of Hanoi algorithm. Write a program to implement it.
+   function towerOfHanoi(n, source, auxiliary, target) {
+    if (n === 1) {
+        console.log(`Move disk 1 from ${source} to ${target}` );
+        return;
+    }
+
+    towerOfHanoi( n - 1, source , target, auxiliary);
+    console.log(`Move disk ${n} from ${source} to ${target}` );
+    towerOfHanoi(n - 1, auxiliary, source , target);
+
+   }
+
+   const numberOfDisks = 3;
+   const sourcePeg = 'A';
+   const auxiliaryPeg = 'B';
+   const targetPeg = 'C';
+
+   towerOfHanoi(numberOfDisks,sourcePeg, auxiliaryPeg, targetPeg);
+
+   //Q6 Read about infix, prefix, and postfix expressions. Write a program to convert postfix to prefix expression.
+   function isOperated(char){
+    return /^[a-zA-Z0-9]+$/.test(char);
+   }
+   function postfixToPrefix(postfix){
+    const stack = [];
+
+    for (let i = 0; i < postfix.length; i++){
+        const char = postfix[i];
+
+        if (isOperated(char)){
+            stack.push(char);
+        }
+        else{
+            const operand2 = stack.pop();
+            const operand1 = stack.pop();
+            const newExpression = char + operand1 + operand2;
+            stack.push(newExpression);
+        }
+    }
+    return stack.pop();
+   }
+
+   const postfixExpression = "ab+c*";
+   const prefixExpression = postfixToPrefix(postfixExpression);
+   console.log("Postfix Expression: " , postfixExpression);
+   console.log("Prefix Expression: " , prefixExpression);
+
+   //Q7 Write a program to convert prefix expression to infix expression.
+   function isOperator(char){
+    return char === '+' || char === ' -' || char === ' *' || char === '/';
+   }
+
+   function prefixToInfix(prefix){
+    const stack = [];
+     
+    for (let i =  prefix.length - 1; i >= 0; i-- ) {
+        const char = prefix[i];
+
+        if (isOperator(char)) {
+            const operand1 = stack.pop();
+            const operand2 = stack.pop();
+            const newExpression = `${operand1}${char}${operand2}`;
+            stack.push(newExpression);
+        }
+        else {
+            stack.push(char);
+        }
+    }
+    return stack.pop();
+   }
+
+   const prefixExpression = "*+ab-cd";
+   const infixExpression = prefixToInfix(prefixExpression);
+   console.log("prefix Expression:", prefixExpression);
+   console.log("Infix Expression:",infixExpression);
+
+
+   //Q8 Write a program to check if all the brackets are closed in a given code snippet.
+   function areBracketsClosed(code){
+    const stack = [];
+    const bracketPairs = {
+        '(':') ',
+        '[': ']',
+        '{': '}'
+    };
+
+    for (let char of code) {
+        if (bracketPairs[char]){
+            stack.push(char);
+        }
+        else if(Object.values(bracketPairs).includes(char)){
+            if (char !== bracketPairs[stack.pop()]){
+                return false;
+            }
+        }
+    }
+    return stack.length === 0;
+   }
+
+   const codeSnippet = 'function example() {if(true) { console.log("Hello");}}';
+   const result = areBracketsClosed(codeSnippet);
+  console.log(result ? 'Brackets are Closed. ' : 'Brackets are not Closed');
+
+  //Q9 Write a program to reverse a stack.
+  class Stack {
+    constructor(){
+        this.items = [];
+    }
+    push(element){
+        this.items.push(element);
+    }
+    pop() {
+        if(this.items.length === 0){
+            return "Underflow";
+        }
+        return this.items.pop();
+    }
+    isEmpty() {
+        return this.items.length === 0;
+    }
+  }
+  function reverseStack(stack){
+    const reversedStack = new Stack();
+
+    while (!stack.isEmpty()){
+        reversedStack.push(stack.pop());
+    }
+    return reversedStack
+  }
+
+  const originalStack = new Stack();
+  originalStack.push(1);
+  originalStack.push(2);
+  originalStack.push(3);
+  
+  const reversedStack = reverseStack(originalStack);
+  console.log("Original stack: " + originalStack.items);
+  console.log("Reversed stack: " + reversedStack.items);
+
+  //Q10 Write a program to find the smallest number using a stack.
+  class minStack{
+    constructor(){
+        this.stack = [];
+        this.minStack = [];
+    }
+
+    push(val){
+        this.stack.push(val);
+        if(this.minStack.length === 0 || val <=this.minStack[this.stack.length - 1]){
+            this.minStack.push(val);
+        }
+    }
+
+    pop(){
+        if(this.stack.length === 0){
+            return undefined;
+        }
+        const popped = this.stack.pop();
+        if(popped === this.minStack[this.stack.length - 1]){
+            this.minStack.pop();
+        }
+        return popped;
+    }
+
+    getMin(){
+        if(this.minStack.length === 0){
+            return undefined;
+        }
+        return this.minStack[this.minStack.length - 1];
+    }
+  }
+
+  const stack = new minStack ();
+  stack.push(3);
+  stack.push(5);
+  stack.push(2);
+  console.log("Smallest number:", stack.getMin());
+  stack.pop();
+  console.log("Smallest number after pop:", stack.getMin());
